@@ -13,7 +13,6 @@ from langgraph.prebuilt import ToolExecutor
 from langchain.tools import StructuredTool
 from playwright.async_api import async_playwright
 
-sys.path.append(os.environ["PROJECT_ROOT"])
 from state import AgentState, SystemMessage
 
 from logger import get_logger

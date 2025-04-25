@@ -9,18 +9,24 @@ from constants import GRAPH_RECURSION_LIMIT
 import time
 from playwright.async_api import Error
 from shared_state import get_response
-project_root = os.environ["PROJECT_ROOT"]
+
 
 BROWSER_TYPE = "chromium"  # Experiment with "chromium" or "firefox"
 HEADLESS_MODE = True  # Use headless for faster execution
 
-sys.path.append(f"{project_root}")
+
 
 from logger import get_logger
 
 logger = get_logger()
 
-with open(f"{os.environ['PROJECT_ROOT']}/mark_page.js") as f:
+current_dir = os.getcwd()
+
+# Build the path to the mark_page.js script
+script_path = os.path.join(current_dir, "mark_page.js")
+
+# Open and read the script
+with open(script_path) as f:
     mark_page_script = f.read()
 class WebVision:
     """

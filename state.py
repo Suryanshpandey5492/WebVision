@@ -5,8 +5,6 @@ from langchain_core.messages import BaseMessage, SystemMessage
 from playwright.async_api import Page
 import os, sys
 
-project_root = os.environ["PROJECT_ROOT"]
-sys.path.append(f"{project_root}")
 
 
 from typing import TypedDict, List, Any

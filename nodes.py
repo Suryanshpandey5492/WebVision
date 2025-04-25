@@ -18,7 +18,6 @@ from logger import get_logger
 logger = get_logger()
 
 # Set up environment paths
-sys.path.append(os.environ["PROJECT_ROOT"])
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 
 # Initialize Azure OpenAI LLM instance

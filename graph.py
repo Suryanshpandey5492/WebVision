@@ -3,8 +3,7 @@ from state import AgentState
 from nodes import browser_node, execution_node, answer_node
 from constants import RECURSION_LIMIT
 import os, sys
-project_root = os.environ["PROJECT_ROOT"]
-sys.path.append(f"{project_root}")
+
 
 from logger import get_logger
 logger = get_logger()
