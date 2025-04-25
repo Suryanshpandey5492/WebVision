@@ -20,16 +20,6 @@ from logger import get_logger
 
 logging = get_logger()
 
-http_traffic_log = []
-
-def get_http_traffic_log():
-    """
-    Returns the recorded HTTP request-response pairs.
-
-    Returns:
-        list: A list of dictionaries containing HTTP request-response pairs.
-    """
-    return http_traffic_log
 
 
 
@@ -207,32 +197,7 @@ async def click(state: Dict[str, Any], bbox_id: int):
         bbox = bboxes[bbox_id]  # Access by index
         x, y = bbox["x"], bbox["y"]
 
-        request_response_map = {}  # Temporary map for request-response pairs
 
-        async def on_request(request):
-            request_response_map[request.url] = {
-                "request": {
-                    "method": request.method,
-                    "url": request.url,
-                    "headers": request.headers,
-                    "post_data": request.post_data
-                },
-                "response": None  # Placeholder
-            }
-            # logging.info(f"Request captured: {request.method} {request.url}")
-
-        async def on_response(response):
-            if response.url in request_response_map:
-                request_response_map[response.url]["response"] = {
-                    "url": response.url,
-                    "status": response.status,
-                    "headers": response.headers
-                }
-                http_traffic_log.append(request_response_map.pop(response.url))
-                # logging.info(f"Response captured: {response.status} {response.url}, added to log.")
-
-        page.on("request", on_request)
-        page.on("response", on_response)
 
         try:
             await asyncio.wait_for(page.mouse.click(x, y), timeout=2)

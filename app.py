@@ -54,4 +54,4 @@ def process_query():
         return jsonify({'error': f"An error occurred: {str(e)}"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
