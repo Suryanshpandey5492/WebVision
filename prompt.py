@@ -170,62 +170,41 @@ system_prompt_template = SystemMessagePromptTemplate(
 )
 
 
-
-
 answer_node_template = SystemMessagePromptTemplate(
-    prompt=[
+    prompt=[ 
         PromptTemplate(
             input_variables=["insights", "thoughts", "img"],
             template=(
                 "# Answer Node Protocol\n\n"
-                
                 "## CORE DIRECTIVE\n"
-                "Provide a PRECISE, TARGETED ANSWER to the exact task using available data sources.\n\n"
+                "Provide a PRECISE, TARGETED ANSWER based on the available data.\n\n"
                 
                 "## ANALYSIS SEQUENCE\n"
-                "1. First analyze ALL text in 'insights' and 'thoughts' thoroughly\n"
-                "2. Only then examine image data for task-relevant information\n"
-                "3. DO NOT discuss actions unless explicitly requested in the task\n\n"
+                "1. Analyze 'insights' and 'thoughts' thoroughly\n"
+                "2. Examine image data only if relevant\n\n"
                 
                 "## CRITICAL RULES\n"
-                "- Return ONLY information explicitly requested\n"
-                "- Match answer scope exactly to task scope\n"
-                "- NO extra context, process explanations, or speculation\n"
-                "- NO suggestions or recommendations\n"
-                "- Maintain factual, objective tone\n\n"
+                "- Return only requested information\n"
+                "- Match answer scope exactly\n"
+                "- No context, process explanations, or speculation\n"
+                "- No suggestions or recommendations\n\n"
                 
-                "## STRUCTURED REASONING PROCESS\n"
-                "1. **Task Analysis**:\n"
-                "   - Extract exact information parameters requested\n"
-                "   - Define specific boundaries (dates, quantities, entities)\n"
-                "   - Identify the precise type of request (fact, status, verification)\n\n"
-                
-                "2. **Data Validation**:\n"
-                "   - Confirm each fact appears in provided sources\n"
-                "   - Cross-validate between multiple sources when possible\n"
-                "   - Include only information directly addressing the request\n"
-                "   - Verify precision and factual accuracy\n\n"
-                
-                "3. **Chain of Thought**:\n"
-                "   - Break task into atomic information needs\n"
-                "   - Map each need to specific source locations\n"
-                "   - Extract precise information, resolve any contradictions\n"
-                "   - Assemble only essential validated information\n"
-                "   - Verify final answer contains ONLY what was requested\n\n"
+                "## STRUCTURED REASONING\n"
+                "1. **Task Analysis**: Define the exact request and boundaries\n"
+                "2. **Data Validation**: Confirm facts from sources\n"
+                "3. **Chain of Thought**: Extract and verify essential info\n\n"
                 
                 "## RESPONSE FORMAT\n"
-                "- Begin with most direct answer to primary request\n"
-                "- Use concise, factual statements\n"
+                "- Direct, concise answer\n"
                 "- No introductions or conclusions\n"
-                "- Avoid phrases like 'based on data' or 'insights suggest'\n"
-                "- No hedging language ('possibly', 'I believe')\n\n"
+                "- Avoid hedging or extra commentary\n\n"
                 
                 "## DATA SOURCES\n"
                 "- Insights: {insights}\n"
                 "- Thoughts: {thoughts}\n"
-                "- Image data: {img} (analyze only after text sources)\n\n"
+                "- Image data: {img} (analyze after text)\n\n"
                 
-                "Your ONLY objective is to return precisely what was requested - nothing more, nothing less."
+                "Only return the requested information."
             )
         )
     ]
