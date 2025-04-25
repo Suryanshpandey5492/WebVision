@@ -3,7 +3,7 @@ import asyncio
 import time
 import logging
 from main import WebVision  # Import your WebVision class
-
+import os
 # Configure logging
 logging.basicConfig(
     level=logging.DEBUG,
@@ -53,5 +53,6 @@ def process_query():
         logger.error(f"Error processing query: {str(e)}")
         return jsonify({'error': f"An error occurred: {str(e)}"})
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5445))
+    app.run(host="0.0.0.0", port=port)
