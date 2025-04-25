@@ -72,8 +72,9 @@ class VisionGraph:
                 {"end": END, "continue": "browser_node", "answer": "answer_node"},
             )
 
+            # Remove the direct connection from execution_node to END
             self.graph.add_edge("browser_node", "execution_node")
-            self.graph.add_edge("answer_node", END)
+            self.graph.add_edge("answer_node", END)  # Only transition to END from the answer_node
         except Exception as e:
             logger.error(f"Error setting up edges: {e}")
 

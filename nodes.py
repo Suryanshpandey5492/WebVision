@@ -280,7 +280,7 @@ async def answer_node(state: AgentState) -> AgentState:
             }
         )
 
-        set_response(response.final_answer)
+        set_response(response)
         
         logger.debug(f"Final response: {response}")
         

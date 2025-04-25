@@ -8,8 +8,6 @@ import os, sys
 project_root = os.environ["PROJECT_ROOT"]
 sys.path.append(f"{project_root}")
 
-from target_profile import TargetProfile
-
 
 from typing import TypedDict, List, Any
 from playwright.sync_api import Page
@@ -60,7 +58,6 @@ class AgentState(TypedDict):
     img: str
     bboxes: List[BBox]
     history: str
-    profile_info: TargetProfile
     nonce: str
     end: bool
     answer: str
