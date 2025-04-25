@@ -1,0 +1,6 @@
+deployed_*.log
+venv/
+show/
+*.pyc
+__pycache__/
+.env

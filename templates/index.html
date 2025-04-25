@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebVision - Web Navigation Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header {
+            background: linear-gradient(135deg, #4a90e2, #6a5acd);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            max-width: 800px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .query-form {
+            margin-bottom: 1.5rem;
+        }
+        .response-area {
+            min-height: 200px;
+            border-radius: 10px;
+            padding: 1.5rem;
+            background-color: #fff;
+            display: none;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .features {
+            margin-top: 2rem;
+        }
+        .feature-icon {
+            font-size: 2rem;
+            color: #4a90e2;
+            margin-bottom: 1rem;
+        }
+        .how-it-works {
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header text-center">
+        <div class="container">
+            <h1 class="display-4">WebVision</h1>
+            <p class="lead">Your AI-powered web navigation assistant</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title mb-3">Ask a Question</h2>
+                <p class="card-text mb-4">Enter your query and WebVision will navigate the web to find an answer for you.</p>
+                
+                <form id="queryForm" class="query-form">
+                    <div class="input-group mb-3">
+                        <input type="text" id="queryInput" class="form-control" placeholder="Example: 'stock price of Apple Inc.' or 'latest news about climate change'" required>
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </form>
+                
+                <div id="loader" class="loader"></div>
+                
+                <div id="responseArea" class="response-area">
+                    <h3 class="mb-3">Response:</h3>
+                    <div id="responseContent"></div>
+                    <div class="mt-3 text-muted">
+                        <small id="executionTime"></small>
+                    </div>
+                </div>
+                
+                <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h2 class="text-center mb-4">What WebVision Can Do</h2>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Find Information</h3>
+                    <p>Search for real-time data, facts, and information across the web.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon">📊</div>
+                    <h3>Get Latest Updates</h3>
+                    <p>Access current stock prices, news, weather, and more.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Results</h3>
+                    <p>Receive quick answers without having to navigate multiple websites.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="how-it-works">
+            <h2 class="text-center mb-4">How It Works</h2>
+            <div class="card">
+                <div class="card-body">
+                    <ol class="mb-0">
+                        <li class="mb-2">Enter your question or query in the search box</li>
+                        <li class="mb-2">WebVision navigates the internet to find relevant information</li>
+                        <li class="mb-2">The system analyzes and processes the data</li>
+                        <li>You receive a concise, accurate answer to your query</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 py-3 text-center text-muted">
+        <div class="container">
+            <p>WebVision - Powered by AI © 2025</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#queryForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const query = $('#queryInput').val().trim();
+                
+                if (!query) {
+                    $('#errorMessage').text('Please enter a query').show();
+                    return;
+                }
+                
+                // Hide previous response and error, show loader
+                $('#responseArea').hide();
+                $('#errorMessage').hide();
+                $('#loader').show();
+                
+                // Send AJAX request
+                $.ajax({
+                    url: '/query',
+                    type: 'POST',
+                    data: { query: query },
+                    success: function(data) {
+                        $('#loader').hide();
+                        
+                        if (data.error) {
+                            $('#errorMessage').text(data.error).show();
+                        } else {
+                            $('#responseContent').html(data.response);
+                            $('#executionTime').text('(Query processed in ' + data.execution_time + ' seconds)');
+                            $('#responseArea').show();
+                        }
+                    },
+                    error: function() {
+                        $('#loader').hide();
+                        $('#errorMessage').text('Server error. Please try again later.').show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
